@@ -999,92 +999,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isActive: 0
+  autoClose: 1
   leftDoor: {fileID: 6874523756934404229}
   rightDoor: {fileID: 3304761851361707573}
   doorMoveDistance: 2.7
   doorSpeed: 1
   timeToStayOpen: 3
-  OnStartMoving:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7256204984036109959}
-        m_TargetAssemblyTypeName: Switch, Assembly-CSharp
-        m_MethodName: SetStateActivating
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 7753606188122393107}
-        m_TargetAssemblyTypeName: Switch, Assembly-CSharp
-        m_MethodName: SetStateActivating
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  OnDoorOpened:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7256204984036109959}
-        m_TargetAssemblyTypeName: Switch, Assembly-CSharp
-        m_MethodName: SetStateActivated
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 7753606188122393107}
-        m_TargetAssemblyTypeName: Switch, Assembly-CSharp
-        m_MethodName: SetStateActivated
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  OnDoorClosed:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7256204984036109959}
-        m_TargetAssemblyTypeName: Switch, Assembly-CSharp
-        m_MethodName: SetStateStandby
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 7753606188122393107}
-        m_TargetAssemblyTypeName: Switch, Assembly-CSharp
-        m_MethodName: SetStateStandby
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!65 &2669967711030206062
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1553,7 +1473,7 @@ PrefabInstance:
     - target: {fileID: 688254664827346502, guid: 4499f4036f4bfcf49979b565a1545100,
         type: 3}
       propertyPath: OnSwitchPressed.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 688254664827346502, guid: 4499f4036f4bfcf49979b565a1545100,
         type: 3}
@@ -1608,18 +1528,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 7068254788714255445}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7753606188122393107 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 688254664827346502, guid: 4499f4036f4bfcf49979b565a1545100,
-    type: 3}
-  m_PrefabInstance: {fileID: 7068254788714255445}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27588c05c5ce21d43a6172c249af8b0d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &7871760004190974145
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1710,7 +1618,7 @@ PrefabInstance:
     - target: {fileID: 688254664827346502, guid: 4499f4036f4bfcf49979b565a1545100,
         type: 3}
       propertyPath: OnSwitchPressed.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 688254664827346502, guid: 4499f4036f4bfcf49979b565a1545100,
         type: 3}
@@ -1765,15 +1673,3 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 7871760004190974145}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7256204984036109959 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 688254664827346502, guid: 4499f4036f4bfcf49979b565a1545100,
-    type: 3}
-  m_PrefabInstance: {fileID: 7871760004190974145}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27588c05c5ce21d43a6172c249af8b0d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

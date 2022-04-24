@@ -15,6 +15,9 @@ public class Switch : MonoBehaviour
     [SerializeField] Color activatedColor = Color.green;
     [SerializeField] Color activatingColor = Color.yellow;
 
+    Elevator elevator;
+    Door door;
+
     public enum SwitchState
     {
         Inactive,
@@ -36,8 +39,10 @@ public class Switch : MonoBehaviour
 
         if (isActive) SetState(SwitchState.Standby);
 
-        Door door = GetComponentInParent<Door>();
+        door = GetComponentInParent<Door>();
         if (door != null && door.IsActive()) SetState(SwitchState.Standby);
+
+        elevator = GetComponentInParent<Elevator>();
     }
 
     private void Update()
@@ -89,15 +94,10 @@ public class Switch : MonoBehaviour
     }
 
     public void SwitchPressed()
-    {
+    { 
+        if (elevator != null) elevator.ElevatorToggle();
+        else if (door != null) door.ToggleDoor();
         OnSwitchPressed.Invoke();
-    }
-
-    public void SetActive(bool active)
-    {
-        isActive = active;
-        if (isActive) lt.color = Color.green;
-        else lt.color = Color.red;
     }
 
     public void SetState(SwitchState newState)

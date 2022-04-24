@@ -6,14 +6,15 @@ using UnityEngine.Events;
 public class Door : MonoBehaviour
 {
     [SerializeField] bool isActive = false;
+    [SerializeField] bool autoClose = true;
 
     public GameObject leftDoor;
     public GameObject rightDoor;
     public float doorMoveDistance = 1.15f;
     public float doorSpeed = 1f;
 
-    bool IsOpen = false;
-    bool IsMoving = false;
+    bool isOpen = false;
+    bool isMoving = false;
 
     Vector3 leftDoorTarget;
     Vector3 rightDoorTarget;
@@ -22,14 +23,26 @@ public class Door : MonoBehaviour
     float timeSinceDoorOccupied = Mathf.Infinity;
     public float timeToStayOpen = 2.0f;
 
-    [SerializeField] UnityEvent OnStartMoving;
+    /*[SerializeField] UnityEvent OnStartMoving;
     [SerializeField] UnityEvent OnDoorOpened;
-    [SerializeField] UnityEvent OnDoorClosed;
+    [SerializeField] UnityEvent OnDoorClosed;*/
+
+    Switch[] switches;
+    Elevator elevator;
+
+    private void Start()
+    {
+        switches = GetComponentsInChildren<Switch>();
+        elevator = GetComponentInParent<Elevator>();
+    }
 
     void Update()
     {
-        CalculateTimeSinceDoorOccupied();
-        CloseDoorIfUnoccupied();
+        if (autoClose)
+        {
+            CalculateTimeSinceDoorOccupied();
+            CloseDoorIfUnoccupied();
+        }
     }
 
     private void FixedUpdate()
@@ -39,7 +52,7 @@ public class Door : MonoBehaviour
 
     private void CloseDoorIfUnoccupied()
     {
-        if (IsOpen && timeSinceDoorOccupied > timeToStayOpen)
+        if (isOpen && timeSinceDoorOccupied > timeToStayOpen)
         {
             ToggleDoor();
         }
@@ -47,7 +60,7 @@ public class Door : MonoBehaviour
 
     private void CalculateTimeSinceDoorOccupied()
     {
-        if (IsOpen && !IsMoving)
+        if (isOpen && !isMoving)
         {
             if (doorOccupied)
             {
@@ -62,7 +75,7 @@ public class Door : MonoBehaviour
 
     private void DoorMovement()
     {
-        if (IsMoving)
+        if (isMoving)
         {
             
 
@@ -75,17 +88,17 @@ public class Door : MonoBehaviour
             {
                 leftDoor.transform.localPosition = leftDoorTarget;
                 rightDoor.transform.localPosition = rightDoorTarget;
-                IsMoving = false;
+                isMoving = false;
 
-                if (IsOpen)
+                if (isOpen)
                 {
-                    IsOpen = false;
-                    OnDoorClosed.Invoke();
+                    isOpen = false;
+                    if (elevator == null) SetSwitchesToStandby();
                 }
                 else
                 {
-                    IsOpen = true;
-                    OnDoorOpened.Invoke();
+                    isOpen = true;
+                    if (elevator == null) SetSwitchesToActivated();
                 }
             }
         }
@@ -93,24 +106,24 @@ public class Door : MonoBehaviour
 
     public void ToggleDoor()
     {
-        if (IsMoving) return;
+        if (isMoving) return;
 
-        IsMoving = true;
+        isMoving = true;
         timeSinceDoorOccupied = 0;
 
-        if (!IsOpen)
+        if (!isOpen)
         {
             leftDoorTarget = new Vector3(leftDoor.transform.localPosition.x - doorMoveDistance, leftDoor.transform.localPosition.y, leftDoor.transform.localPosition.z);
             rightDoorTarget = new Vector3(rightDoor.transform.localPosition.x + doorMoveDistance, rightDoor.transform.localPosition.y, rightDoor.transform.localPosition.z);
 
         }
-        else if (IsOpen)
+        else if (isOpen)
         {
             leftDoorTarget = new Vector3(leftDoor.transform.localPosition.x + doorMoveDistance, leftDoor.transform.localPosition.y, leftDoor.transform.localPosition.z);
             rightDoorTarget = new Vector3(rightDoor.transform.localPosition.x - doorMoveDistance, rightDoor.transform.localPosition.y, rightDoor.transform.localPosition.z);
         }
 
-        OnStartMoving.Invoke();
+        if (elevator == null) SetSwitchesToActivating();
     }
 
     public bool IsActive()
@@ -131,6 +144,62 @@ public class Door : MonoBehaviour
         if (other.transform == GameObject.FindGameObjectWithTag("Player").transform)
         {
             doorOccupied = false;
+        }
+    }
+
+    public void OpenDoors()
+    {
+        if (!isOpen)
+        {
+            ToggleDoor();
+        }
+    }
+
+    public void CloseDoors()
+    {
+        if (isOpen)
+        {
+            ToggleDoor();
+        }
+    }
+
+    public bool IsOpen()
+    {
+        return isOpen;
+    }
+
+    public bool IsMoving()
+    {
+        return isMoving;
+    }
+
+    private void SetSwitchesToActivating()
+    {
+        if (switches == null) return;
+
+        foreach (Switch sw in switches)
+        {
+            sw.SetStateActivating();
+        }
+    }
+
+    private void SetSwitchesToActivated()
+    {
+        if (switches == null) return;
+
+        foreach (Switch sw in switches)
+        {
+            sw.SetStateActivated();
+        }
+    }
+
+    private void SetSwitchesToStandby()
+    {
+        if (switches == null) return;
+
+        foreach (Switch sw in switches)
+        {
+            sw.SetStateStandby();
         }
     }
 }
