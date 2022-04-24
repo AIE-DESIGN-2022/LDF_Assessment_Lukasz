@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,26 +8,18 @@ public class Door : MonoBehaviour
 {
     [SerializeField] bool isActive = false;
     [SerializeField] bool autoClose = true;
-
-    public GameObject leftDoor;
-    public GameObject rightDoor;
-    public float doorMoveDistance = 1.15f;
-    public float doorSpeed = 1f;
+    [SerializeField] GameObject leftDoor;
+    [SerializeField] GameObject rightDoor;
+    [SerializeField] float doorMoveDistance = 1.15f;
+    [SerializeField] float doorSpeed = 1f;
 
     bool isOpen = false;
     bool isMoving = false;
-
     Vector3 leftDoorTarget;
     Vector3 rightDoorTarget;
-
     bool doorOccupied = false;
     float timeSinceDoorOccupied = Mathf.Infinity;
     public float timeToStayOpen = 2.0f;
-
-    /*[SerializeField] UnityEvent OnStartMoving;
-    [SerializeField] UnityEvent OnDoorOpened;
-    [SerializeField] UnityEvent OnDoorClosed;*/
-
     Switch[] switches;
     Elevator elevator;
 
@@ -77,12 +70,9 @@ public class Door : MonoBehaviour
     {
         if (isMoving)
         {
-            
-
             float step = doorSpeed * Time.deltaTime;
             leftDoor.transform.localPosition = Vector3.MoveTowards(leftDoor.transform.localPosition, leftDoorTarget, step);
             rightDoor.transform.localPosition = Vector3.MoveTowards(rightDoor.transform.localPosition, rightDoorTarget, step);
-
 
             if (Vector3.Distance(leftDoor.transform.localPosition, leftDoorTarget) < 0.02)
             {
@@ -106,15 +96,14 @@ public class Door : MonoBehaviour
 
     public void ToggleDoor()
     {
-        if (isMoving) return;
+        if (isMoving || !isActive) return;
 
         isMoving = true;
-        timeSinceDoorOccupied = 0;
-
         if (!isOpen)
         {
             leftDoorTarget = new Vector3(leftDoor.transform.localPosition.x - doorMoveDistance, leftDoor.transform.localPosition.y, leftDoor.transform.localPosition.z);
             rightDoorTarget = new Vector3(rightDoor.transform.localPosition.x + doorMoveDistance, rightDoor.transform.localPosition.y, rightDoor.transform.localPosition.z);
+            timeSinceDoorOccupied = 0;
 
         }
         else if (isOpen)
@@ -129,22 +118,6 @@ public class Door : MonoBehaviour
     public bool IsActive()
     {
         return isActive;
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.transform == GameObject.FindGameObjectWithTag("Player").transform)
-        {
-            doorOccupied = true;
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.transform == GameObject.FindGameObjectWithTag("Player").transform)
-        {
-            doorOccupied = false;
-        }
     }
 
     public void OpenDoors()
@@ -171,6 +144,40 @@ public class Door : MonoBehaviour
     public bool IsMoving()
     {
         return isMoving;
+    }
+
+    public void ActivateDoor()
+    {
+        SetActive(true);
+    }
+
+    public void DeactivateDoor()
+    {
+        SetActive(false);
+    }
+
+    private void SetActive(bool active)
+    {
+        isActive = active;
+        
+        if (isActive)
+        {
+            SetSwitchesToStandby();
+        }
+        else
+        {
+            SetSwitchesToInActive();
+        }
+    }
+
+    private void SetSwitchesToInActive()
+    {
+        if (switches == null) return;
+
+        foreach (Switch sw in switches)
+        {
+            sw.SetStateInactive();
+        }
     }
 
     private void SetSwitchesToActivating()
@@ -200,6 +207,22 @@ public class Door : MonoBehaviour
         foreach (Switch sw in switches)
         {
             sw.SetStateStandby();
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.transform == GameObject.FindGameObjectWithTag("Player").transform)
+        {
+            doorOccupied = true;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.transform == GameObject.FindGameObjectWithTag("Player").transform)
+        {
+            doorOccupied = false;
         }
     }
 }

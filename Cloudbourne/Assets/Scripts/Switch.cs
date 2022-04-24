@@ -9,7 +9,6 @@ public class Switch : MonoBehaviour
     [SerializeField] UnityEvent OnSwitchPressed;
     [SerializeField] bool isActive = false;
     [SerializeField] Light lt;
-
     [SerializeField] Color inactiveColor = Color.red;
     [SerializeField] Color standbyColor = Color.blue;
     [SerializeField] Color activatedColor = Color.green;

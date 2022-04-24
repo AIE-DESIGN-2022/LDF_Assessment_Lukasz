@@ -12,13 +12,13 @@ public class Elevator : MonoBehaviour
     bool isMoving = false;
     bool isAtOrigin = true;
     Vector3 elevatorTarget;
+    Door door;
+    Switch sw;
 
     [SerializeField] UnityEvent OnMoveStart;
     [SerializeField] UnityEvent OnReachTop;
     [SerializeField] UnityEvent OnReachBottom;
 
-    Door door;
-    Switch sw;
 
     private void Awake()
     {
@@ -41,8 +41,43 @@ public class Elevator : MonoBehaviour
         {
             ElevatorMovement();
         }
-        
-        
+    }
+
+    public void ElevatorToggle()
+    {
+        if (isMoving) return;
+
+        isMoving = true;
+
+        if (isAtOrigin)
+        {
+            elevatorTarget = new Vector3(transform.position.x, transform.position.y + targetHeight, transform.position.z);
+        }
+        else
+        {
+            elevatorTarget = new Vector3(transform.position.x, transform.position.y - targetHeight, transform.position.z);
+        }
+
+        if (door != null) door.CloseDoors();
+
+        sw.SetStateActivating();
+        OnMoveStart.Invoke();
+    }
+
+    public void OpenDoors()
+    {
+        if (door != null) door.OpenDoors();
+        if (sw != null) sw.SetStateActivated();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        other.transform.parent = transform;
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        other.transform.parent = null;
     }
 
     private void ElevatorMovement()
@@ -70,42 +105,5 @@ public class Elevator : MonoBehaviour
             if (door != null) door.OpenDoors();
         }
 
-    }
-
-    public void ElevatorToggle()
-    {
-        if (isMoving) return;
-
-        isMoving = true;
-
-        if (isAtOrigin)
-        {
-            elevatorTarget = new Vector3(transform.position.x, transform.position.y + targetHeight, transform.position.z);
-        }
-        else
-        {
-            elevatorTarget = new Vector3(transform.position.x, transform.position.y - targetHeight, transform.position.z);
-        }
-
-        if (door != null) door.CloseDoors();
-
-        sw.SetStateActivating();
-        OnMoveStart.Invoke();
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        other.transform.parent = transform;
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        other.transform.parent = null;
-    }
-
-    public void OpenDoors()
-    {
-        if (door != null) door.OpenDoors();
-        if (sw != null) sw.SetStateActivated();
     }
 }
