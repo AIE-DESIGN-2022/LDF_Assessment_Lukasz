@@ -16,6 +16,9 @@ public class Switch : MonoBehaviour
 
     Elevator elevator;
     Door door;
+    bool isCallElevatorBottom = false;
+    bool isCallElevatorTop = false;
+    Elevator elevatorToCall;
 
     public enum SwitchState
     {
@@ -34,13 +37,9 @@ public class Switch : MonoBehaviour
 
     private void Start()
     {
-        SetState(SwitchState.Inactive);
-
         if (isActive) SetState(SwitchState.Standby);
 
         door = GetComponentInParent<Door>();
-        if (door != null && door.IsActive()) SetState(SwitchState.Standby);
-
         elevator = GetComponentInParent<Elevator>();
     }
 
@@ -93,10 +92,14 @@ public class Switch : MonoBehaviour
     }
 
     public void SwitchPressed()
-    { 
-        if (elevator != null) elevator.ElevatorToggle();
+    {
+        if (state == SwitchState.Inactive || state == SwitchState.Activating) return;
+
+        if (isCallElevatorTop) elevatorToCall.CallElevator(false);
+        else if (isCallElevatorBottom) elevatorToCall.CallElevator(true);
+        else if (elevator != null) elevator.ElevatorToggle();
         else if (door != null) door.ToggleDoor();
-        OnSwitchPressed.Invoke();
+        else OnSwitchPressed.Invoke();
     }
 
     public void SetState(SwitchState newState)
@@ -151,5 +154,18 @@ public class Switch : MonoBehaviour
     public void SetStateInactive()
     {
         SetState(SwitchState.Inactive);
+    }
+
+    public void SetElevatorCallSwitch(Elevator callingElevator, bool topSwitch)
+    {
+        elevatorToCall = callingElevator;
+        if (topSwitch)
+        {
+            isCallElevatorTop = true;
+        }
+        else
+        {
+            isCallElevatorBottom = true;
+        }
     }
 }

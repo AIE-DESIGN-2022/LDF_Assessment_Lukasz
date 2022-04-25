@@ -27,6 +27,9 @@ public class Door : MonoBehaviour
     {
         switches = GetComponentsInChildren<Switch>();
         elevator = GetComponentInParent<Elevator>();
+
+        if (isActive) ActivateDoor();
+        //else DeactivateDoor();
     }
 
     void Update()
@@ -166,11 +169,11 @@ public class Door : MonoBehaviour
         }
         else
         {
-            SetSwitchesToInActive();
+            SetSwitchesToInactive();
         }
     }
 
-    private void SetSwitchesToInActive()
+    private void SetSwitchesToInactive()
     {
         if (switches == null) return;
 
