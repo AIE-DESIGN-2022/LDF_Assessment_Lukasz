@@ -15,6 +15,9 @@ namespace Unity.FPS.Game
         public bool IsOptional;
 
         [Tooltip("Delay before the objective becomes visible")]
+        public float DelayBeforeDisplay;
+
+        [Tooltip("Delay before the objective becomes visible")]
         public float DelayVisible;
 
         public bool IsCompleted { get; private set; }
@@ -23,13 +26,22 @@ namespace Unity.FPS.Game
         public static event Action<Objective> OnObjectiveCreated;
         public static event Action<Objective> OnObjectiveCompleted;
 
+        [SerializeField] bool startActivated = true;
+        [SerializeField] Objective[] nextObjectives;
+
         protected virtual void Start()
+        {
+            if (startActivated) ActivateObjective();
+            DelayVisible += DelayBeforeDisplay;
+        }
+
+        public virtual void ActivateObjective()
         {
             OnObjectiveCreated?.Invoke(this);
 
             DisplayMessageEvent displayMessage = Events.DisplayMessageEvent;
             displayMessage.Message = Title;
-            displayMessage.DelayBeforeDisplay = 0.0f;
+            displayMessage.DelayBeforeDisplay = this.DelayBeforeDisplay;
             EventManager.Broadcast(displayMessage);
         }
 
@@ -56,7 +68,19 @@ namespace Unity.FPS.Game
             evt.IsComplete = IsCompleted;
             EventManager.Broadcast(evt);
 
+            ActivateNextObjectives();
+
             OnObjectiveCompleted?.Invoke(this);
+        }
+
+        private void ActivateNextObjectives()
+        {
+            if (nextObjectives == null) return;
+
+            foreach (var obj in nextObjectives)
+            {
+                obj.ActivateObjective();
+            }
         }
     }
 }
