@@ -3153,7 +3153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bcd78cd476c43b4fad2617adaa33e35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isActive: 1
+  isActive: 0
   autoClose: 1
   leftDoor: {fileID: 7058215632796131632}
   rightDoor: {fileID: 485070354056279250}
