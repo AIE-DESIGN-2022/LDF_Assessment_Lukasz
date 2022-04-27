@@ -12,12 +12,31 @@ namespace Unity.FPS.UI
         public string TextDirection;
 
         Compass m_Compass;
+        Objective objective;
+        bool isRegistered = false;
 
         void Awake()
         {
             m_Compass = FindObjectOfType<Compass>();
             DebugUtility.HandleErrorIfNullFindObject<Compass, CompassElement>(m_Compass, this);
 
+            objective = GetComponent<Objective>();
+        }
+
+        private void Update()
+        {
+            if (!isRegistered && objective != null)
+            {
+                if (objective.IsActivated())
+                {
+                    RegisterObjective();
+                    isRegistered = true;
+                }
+            }
+        }
+
+        public void RegisterObjective()
+        {
             var markerInstance = Instantiate(CompassMarkerPrefab);
 
             markerInstance.Initialize(this, TextDirection);

@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Unity.FPS.Game
 {
@@ -14,7 +15,7 @@ namespace Unity.FPS.Game
         [Tooltip("Whether the objective is required to win or not")]
         public bool IsOptional;
 
-        [Tooltip("Delay before the objective becomes visible")]
+        [Tooltip("Delay before the message becomes visible")]
         public float DelayBeforeDisplay;
 
         [Tooltip("Delay before the objective becomes visible")]
@@ -28,6 +29,12 @@ namespace Unity.FPS.Game
 
         [SerializeField] bool startActivated = true;
         [SerializeField] Objective[] nextObjectives;
+        [SerializeField] UnityEvent OnObjectiveComplete;
+
+        public Objective motherObjective;
+        public int numberOfChildObjectives;
+
+        bool isActivated = false;
 
         protected virtual void Start()
         {
@@ -37,8 +44,10 @@ namespace Unity.FPS.Game
 
         public virtual void ActivateObjective()
         {
-            OnObjectiveCreated?.Invoke(this);
+            if (isActivated) return;
+            isActivated = true;
 
+            OnObjectiveCreated?.Invoke(this);
             DisplayMessageEvent displayMessage = Events.DisplayMessageEvent;
             displayMessage.Message = Title;
             displayMessage.DelayBeforeDisplay = this.DelayBeforeDisplay;
@@ -68,9 +77,15 @@ namespace Unity.FPS.Game
             evt.IsComplete = IsCompleted;
             EventManager.Broadcast(evt);
 
+            if (motherObjective) motherObjective.numberOfChildObjectives--;
             ActivateNextObjectives();
-
+            OnObjectiveComplete.Invoke();
             OnObjectiveCompleted?.Invoke(this);
+        }
+
+        public bool IsActivated()
+        {
+            return isActivated;
         }
 
         private void ActivateNextObjectives()

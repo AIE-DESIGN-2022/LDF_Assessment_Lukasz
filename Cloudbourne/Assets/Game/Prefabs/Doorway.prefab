@@ -1472,6 +1472,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 688254664827346502, guid: 4499f4036f4bfcf49979b565a1545100,
         type: 3}
+      propertyPath: hoverMessage
+      value: Press E to Open
+      objectReference: {fileID: 0}
+    - target: {fileID: 688254664827346502, guid: 4499f4036f4bfcf49979b565a1545100,
+        type: 3}
       propertyPath: OnSwitchPressed.m_PersistentCalls.m_Calls.Array.size
       value: 0
       objectReference: {fileID: 0}
@@ -1619,6 +1624,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Switch1
+      objectReference: {fileID: 0}
+    - target: {fileID: 688254664827346502, guid: 4499f4036f4bfcf49979b565a1545100,
+        type: 3}
+      propertyPath: hoverMessage
+      value: Press E to Open
       objectReference: {fileID: 0}
     - target: {fileID: 688254664827346502, guid: 4499f4036f4bfcf49979b565a1545100,
         type: 3}

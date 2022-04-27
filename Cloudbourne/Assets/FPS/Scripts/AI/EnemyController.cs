@@ -311,13 +311,13 @@ namespace Unity.FPS.AI
         {
             if (NavMeshAgent)
             {
-               // NavMeshAgent.SetDestination(destination);
+                NavMeshAgent.SetDestination(destination);
             }
         }
 
         public void UpdatePathDestination(bool inverseOrder = false)
         {
-        /*    if (IsPathValid())
+            if (IsPathValid())
             {
                 // Check if reached the path destination
                 if ((transform.position - GetDestinationOnPath()).magnitude <= PathReachingRadius)
@@ -335,7 +335,7 @@ namespace Unity.FPS.AI
                         m_PathDestinationNodeIndex -= PatrolPath.PathNodes.Count;
                     }
                 }
-            }*/
+            }
         }
 
         void OnDamaged(float damage, GameObject damageSource)
