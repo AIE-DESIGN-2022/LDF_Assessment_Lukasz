@@ -5,7 +5,7 @@ namespace Unity.FPS.Game
 {
     public class ObjectiveManager : MonoBehaviour
     {
-        List<Objective> m_Objectives = new List<Objective>();
+        public List<Objective> m_Objectives = new List<Objective>();
         bool m_ObjectivesCompleted = false;
 
         void Awake()

@@ -17,6 +17,7 @@ namespace Unity.FPS.Gameplay
 
         void OnPickupEvent(PickupEvent evt)
         {
+            if (!isActivated) isActivated = true;
             if (IsCompleted || ItemToPickup != evt.Pickup)
                 return;
 

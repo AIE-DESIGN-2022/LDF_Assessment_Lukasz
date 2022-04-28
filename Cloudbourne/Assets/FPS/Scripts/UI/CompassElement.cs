@@ -20,27 +20,43 @@ namespace Unity.FPS.UI
             m_Compass = FindObjectOfType<Compass>();
             DebugUtility.HandleErrorIfNullFindObject<Compass, CompassElement>(m_Compass, this);
 
-            objective = GetComponent<Objective>();
+            objective = GetComponentInParent<Objective>();
         }
 
         private void Update()
         {
-            if (!isRegistered && objective != null)
+            if (objective != null)
             {
-                if (objective.IsActivated())
+                if (objective.isActivated)
                 {
-                    RegisterObjective();
-                    isRegistered = true;
+                    if (!isRegistered) Register();
+                }
+                else
+                {
+                    if (isRegistered) Deregister();
+                }
+            }
+            else
+            {
+                if (!isRegistered)
+                {
+                    Register();
                 }
             }
         }
 
-        public void RegisterObjective()
+        public void Register()
         {
             var markerInstance = Instantiate(CompassMarkerPrefab);
-
+            isRegistered = true;
             markerInstance.Initialize(this, TextDirection);
             m_Compass.RegisterCompassElement(transform, markerInstance);
+        }
+
+        public void Deregister()
+        {
+            isRegistered = false;
+            m_Compass.UnregisterCompassElement(transform);
         }
 
         void OnDestroy()

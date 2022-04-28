@@ -1,4 +1,5 @@
-﻿using Unity.FPS.Game;
+﻿using System;
+using Unity.FPS.Game;
 using UnityEngine;
 
 namespace Unity.FPS.Gameplay
@@ -8,27 +9,33 @@ namespace Unity.FPS.Gameplay
         [Tooltip("Visible transform that will be destroyed once the objective is completed")]
         public Transform DestroyRoot;
 
-        [SerializeField] Objective[] otherObjectives;
+        public Objective[] otherObjectives;
+        public int numberOfActive;
 
         void Awake()
         {
             if (DestroyRoot == null)
                 DestroyRoot = transform;
-        }
 
-
-        void Start()
-        {
-            foreach (Objective otherObjective in otherObjectives)
-            {
-                otherObjective.motherObjective = this;
-                numberOfChildObjectives++;
-            }
+            otherObjectives = GetComponentsInChildren<Objective>();
+            numberOfActive = otherObjectives.Length;
         }
 
         private void Update()
         {
-            if (numberOfChildObjectives <= 0) Completed();
+            if (!CheckIfHasChildrenActive()) Completed();
+        }
+
+        private bool CheckIfHasChildrenActive()
+        {
+            int activeLeft = numberOfActive;
+
+            foreach (Objective obj in otherObjectives)
+            {
+                if (obj == null) activeLeft--;
+            }
+
+            return activeLeft > 1;
         }
 
         public void Completed()
@@ -36,7 +43,6 @@ namespace Unity.FPS.Gameplay
             if (IsCompleted) return;
             CompleteObjective(string.Empty, string.Empty, "Objective complete : " + Title);
             Destroy(DestroyRoot.gameObject);
-
         }
     }
 }

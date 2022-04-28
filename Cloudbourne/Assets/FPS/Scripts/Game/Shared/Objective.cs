@@ -31,13 +31,11 @@ namespace Unity.FPS.Game
         [SerializeField] Objective[] nextObjectives;
         [SerializeField] UnityEvent OnObjectiveComplete;
 
-        public Objective motherObjective;
-        public int numberOfChildObjectives;
-
-        bool isActivated = false;
+        public bool isActivated = false;
 
         protected virtual void Start()
         {
+            if (!startActivated) isActivated = false;
             if (startActivated) ActivateObjective();
             DelayVisible += DelayBeforeDisplay;
         }
@@ -67,6 +65,7 @@ namespace Unity.FPS.Game
 
         public void CompleteObjective(string descriptionText, string counterText, string notificationText)
         {
+            if (!isActivated) return;
             IsCompleted = true;
 
             ObjectiveUpdateEvent evt = Events.ObjectiveUpdateEvent;
@@ -77,10 +76,10 @@ namespace Unity.FPS.Game
             evt.IsComplete = IsCompleted;
             EventManager.Broadcast(evt);
 
-            if (motherObjective) motherObjective.numberOfChildObjectives--;
             ActivateNextObjectives();
             OnObjectiveComplete.Invoke();
             OnObjectiveCompleted?.Invoke(this);
+            //print("Completing " + gameObject.name);
         }
 
         public bool IsActivated()
@@ -96,6 +95,12 @@ namespace Unity.FPS.Game
             {
                 obj.ActivateObjective();
             }
+        }
+
+        public void AutoComplete()
+        {
+            isActivated = true;
+            CompleteObjective(string.Empty, string.Empty, "Objective complete : " + Title);
         }
     }
 }

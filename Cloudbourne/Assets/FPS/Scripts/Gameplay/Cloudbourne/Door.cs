@@ -9,7 +9,9 @@ namespace Unity.FPS.Gameplay
     public class Door : MonoBehaviour
     {
         [SerializeField] bool isActive = false;
+        [SerializeField] bool autoOpen = false;
         [SerializeField] bool autoClose = true;
+        [SerializeField] bool linearInterpMovement = false;
         [SerializeField] GameObject leftDoor;
         [SerializeField] GameObject rightDoor;
         [SerializeField] float doorMoveDistance = 1.15f;
@@ -40,6 +42,10 @@ namespace Unity.FPS.Gameplay
             {
                 CalculateTimeSinceDoorOccupied();
                 CloseDoorIfUnoccupied();
+            }
+            if (autoOpen && doorOccupied)
+            {
+                OpenDoors();
             }
         }
 
@@ -76,13 +82,23 @@ namespace Unity.FPS.Gameplay
             if (isMoving)
             {
                 float step = doorSpeed * Time.deltaTime;
-                leftDoor.transform.localPosition = Vector3.MoveTowards(leftDoor.transform.localPosition, leftDoorTarget, step);
-                rightDoor.transform.localPosition = Vector3.MoveTowards(rightDoor.transform.localPosition, rightDoorTarget, step);
+
+                if (linearInterpMovement)
+                {
+                    if (leftDoor != null) leftDoor.transform.localPosition = Vector3.Lerp(leftDoor.transform.localPosition, leftDoorTarget, step);
+                    if (rightDoor != null) rightDoor.transform.localPosition = Vector3.Lerp(rightDoor.transform.localPosition, rightDoorTarget, step);
+                }
+                else
+                {
+                    if (leftDoor != null) leftDoor.transform.localPosition = Vector3.MoveTowards(leftDoor.transform.localPosition, leftDoorTarget, step);
+                    if (rightDoor != null) rightDoor.transform.localPosition = Vector3.MoveTowards(rightDoor.transform.localPosition, rightDoorTarget, step);
+                }
+                
 
                 if (Vector3.Distance(leftDoor.transform.localPosition, leftDoorTarget) < 0.02)
                 {
-                    leftDoor.transform.localPosition = leftDoorTarget;
-                    rightDoor.transform.localPosition = rightDoorTarget;
+                    if (leftDoor != null) leftDoor.transform.localPosition = leftDoorTarget;
+                    if (rightDoor != null) rightDoor.transform.localPosition = rightDoorTarget;
                     isMoving = false;
 
                     if (isOpen)
@@ -106,15 +122,15 @@ namespace Unity.FPS.Gameplay
             isMoving = true;
             if (!isOpen)
             {
-                leftDoorTarget = new Vector3(leftDoor.transform.localPosition.x - doorMoveDistance, leftDoor.transform.localPosition.y, leftDoor.transform.localPosition.z);
-                rightDoorTarget = new Vector3(rightDoor.transform.localPosition.x + doorMoveDistance, rightDoor.transform.localPosition.y, rightDoor.transform.localPosition.z);
+                if (leftDoor != null) leftDoorTarget = new Vector3(leftDoor.transform.localPosition.x - doorMoveDistance, leftDoor.transform.localPosition.y, leftDoor.transform.localPosition.z);
+                if (rightDoor != null) rightDoorTarget = new Vector3(rightDoor.transform.localPosition.x + doorMoveDistance, rightDoor.transform.localPosition.y, rightDoor.transform.localPosition.z);
                 timeSinceDoorOccupied = 0;
 
             }
             else if (isOpen)
             {
-                leftDoorTarget = new Vector3(leftDoor.transform.localPosition.x + doorMoveDistance, leftDoor.transform.localPosition.y, leftDoor.transform.localPosition.z);
-                rightDoorTarget = new Vector3(rightDoor.transform.localPosition.x - doorMoveDistance, rightDoor.transform.localPosition.y, rightDoor.transform.localPosition.z);
+                if (leftDoor != null) leftDoorTarget = new Vector3(leftDoor.transform.localPosition.x + doorMoveDistance, leftDoor.transform.localPosition.y, leftDoor.transform.localPosition.z);
+                if (rightDoor != null) rightDoorTarget = new Vector3(rightDoor.transform.localPosition.x - doorMoveDistance, rightDoor.transform.localPosition.y, rightDoor.transform.localPosition.z);
             }
 
             if (elevator == null) SetSwitchesToActivating();

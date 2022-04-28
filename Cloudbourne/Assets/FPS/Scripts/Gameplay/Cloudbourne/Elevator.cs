@@ -10,6 +10,7 @@ namespace Unity.FPS.Gameplay
     {
         [SerializeField] bool isActive = false;
         [SerializeField] float targetHeight;
+        [SerializeField] bool linearInterpMovement = false;
         [SerializeField] float elevatorSpeed;
         [SerializeField] bool startsAtBottom = true;
         [SerializeField] GameObject bottomElevatorObject;
@@ -119,7 +120,16 @@ namespace Unity.FPS.Gameplay
         private void ElevatorMovement()
         {
             float step = elevatorSpeed * Time.deltaTime;
-            transform.position = Vector3.MoveTowards(transform.position, elevatorTarget, step);
+
+            if (linearInterpMovement)
+            {
+                transform.position = Vector3.Lerp(transform.position, elevatorTarget, step);
+            }
+            else
+            {
+                transform.position = Vector3.MoveTowards(transform.position, elevatorTarget, step);
+            }
+            
 
             if (Vector3.Distance(transform.position, elevatorTarget) < 0.02)
             {
