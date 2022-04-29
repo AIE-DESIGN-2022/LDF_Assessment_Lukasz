@@ -82,7 +82,6 @@ namespace Unity.FPS.UI
         public void RegisterCompassElement(Transform element, CompassMarker marker)
         {
             marker.transform.SetParent(CompasRect);
-
             m_ElementsDictionnary.Add(element, marker);
         }
 

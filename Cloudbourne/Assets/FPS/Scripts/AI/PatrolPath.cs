@@ -40,6 +40,21 @@ namespace Unity.FPS.AI
             return PathNodes[nodeIndex].position;
         }
 
+        public int GetClosestNode(Vector3 origin)
+        {
+            float smallestDistance = Mathf.Infinity;
+            int smallestIndex = 0;
+
+            for (int i = 0; i < PathNodes.Count; i++)
+            {
+                if (GetDistanceToNode(origin, i) < smallestDistance)
+                {
+                    smallestIndex = i;
+                }
+            }
+            return smallestIndex;
+        }
+
         void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.cyan;

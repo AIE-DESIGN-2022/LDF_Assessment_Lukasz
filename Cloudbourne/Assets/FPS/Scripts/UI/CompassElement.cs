@@ -13,55 +13,51 @@ namespace Unity.FPS.UI
 
         Compass m_Compass;
         Objective objective;
-        bool isRegistered = false;
+        bool objectiveRegistered = false;
 
         void Awake()
         {
+            //Objective.OnObjectiveActivated += ObjectiveRegistration;
             m_Compass = FindObjectOfType<Compass>();
             DebugUtility.HandleErrorIfNullFindObject<Compass, CompassElement>(m_Compass, this);
 
-            objective = GetComponentInParent<Objective>();
+            objective = GetComponent<Objective>();
+            if (objective != null) return;
+
+            RegistrationLogic();
         }
 
         private void Update()
         {
             if (objective != null)
             {
-                if (objective.isActivated)
+                if (objective.IsActivated() && !objectiveRegistered)
                 {
-                    if (!isRegistered) Register();
-                }
-                else
-                {
-                    if (isRegistered) Deregister();
+                    RegistrationLogic();
+                    objectiveRegistered = true;
+                    print("Adding Compass Element: " + gameObject.name);
                 }
             }
-            else
-            {
-                if (!isRegistered)
-                {
-                    Register();
-                }
-            }
+
         }
 
-        public void Register()
+        private void RegistrationLogic()
         {
             var markerInstance = Instantiate(CompassMarkerPrefab);
-            isRegistered = true;
+
             markerInstance.Initialize(this, TextDirection);
             m_Compass.RegisterCompassElement(transform, markerInstance);
         }
 
-        public void Deregister()
+        private void ObjectiveRegistration(Objective an_objective)
         {
-            isRegistered = false;
-            m_Compass.UnregisterCompassElement(transform);
+            RegistrationLogic();
         }
 
         void OnDestroy()
         {
             m_Compass.UnregisterCompassElement(transform);
+            //Objective.OnObjectiveActivated -= ObjectiveRegistration;
         }
     }
 }

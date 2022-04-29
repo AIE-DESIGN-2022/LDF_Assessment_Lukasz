@@ -8,6 +8,15 @@ using UnityEngine;
 public class PlayerSwitchInteraction : MonoBehaviour
 {
     bool ActiveRaytracing = false;
+    [SerializeField] KeyCode activatingKey = KeyCode.F;
+    string openMsg;
+
+
+    private void Start()
+    {
+        openMsg = "Press " + activatingKey + " to open.";
+    }
+
     private void Update()
     {
         if (ActiveRaytracing) DoRaytracing();
@@ -27,19 +36,14 @@ public class PlayerSwitchInteraction : MonoBehaviour
         {
             Switch theSwitch = hit.collider.GetComponentInParent<Switch>();
 
-            /*DisplayMessageEvent displayMessage = Events.DisplayMessageEvent;
-            displayMessage.Message = theSwitch.hoverMessage;
-            displayMessage.DelayBeforeDisplay = 0.0f;
-            EventManager.Broadcast(displayMessage);*/
-
-            if (Input.GetKeyDown(KeyCode.E))
+            if (Input.GetKeyDown(activatingKey))
             {
                 theSwitch.SwitchPressed();
             }
         }
         else
         {
-            //EventManager.Clear();
+
         }
     }
 

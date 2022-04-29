@@ -25,11 +25,12 @@ namespace Unity.FPS.Game
         public bool IsBlocking() => !(IsOptional || IsCompleted);
 
         public static event Action<Objective> OnObjectiveCreated;
+        public static event Action<Objective> OnObjectiveActivated;
         public static event Action<Objective> OnObjectiveCompleted;
 
-        [SerializeField] bool startActivated = true;
+        public bool startActivated = true;
         [SerializeField] Objective[] nextObjectives;
-        [SerializeField] UnityEvent OnObjectiveComplete;
+        [SerializeField] UnityEvent OnObjectiveComplete; 
 
         public bool isActivated = false;
 
@@ -38,14 +39,14 @@ namespace Unity.FPS.Game
             if (!startActivated) isActivated = false;
             if (startActivated) ActivateObjective();
             DelayVisible += DelayBeforeDisplay;
+            OnObjectiveCreated?.Invoke(this);
         }
 
         public virtual void ActivateObjective()
         {
             if (isActivated) return;
             isActivated = true;
-
-            OnObjectiveCreated?.Invoke(this);
+            OnObjectiveActivated.Invoke(this);
             DisplayMessageEvent displayMessage = Events.DisplayMessageEvent;
             displayMessage.Message = Title;
             displayMessage.DelayBeforeDisplay = this.DelayBeforeDisplay;

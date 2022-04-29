@@ -1674,6 +1674,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isActive: 0
   targetHeight: 0
+  linearInterpMovement: 0
   elevatorSpeed: 0
   startsAtBottom: 1
   bottomElevatorObject: {fileID: 0}
@@ -2664,7 +2665,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isActive: 1
+  autoOpen: 0
   autoClose: 1
+  linearInterpMovement: 0
   leftDoor: {fileID: 4430693654628331282}
   rightDoor: {fileID: 6499957830479919856}
   doorMoveDistance: 1.15
@@ -3079,7 +3082,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5880305328473422636}
   m_LocalRotation: {x: 0.5, y: -0.5, z: 0.5, w: 0.5}
-  m_LocalPosition: {x: -0.12500058, y: -0.05, z: 0.02}
+  m_LocalPosition: {x: -0.12500058, y: -0.396, z: 0.02}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4767362053939570644}
