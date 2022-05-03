@@ -5,7 +5,7 @@ using UnityEngine;
 public class RoomEnemySpawner : MonoBehaviour
 {
     EnemySpawnerCB[] enemys;
-    public float timeBetweenSpawns = 10;
+    public float timeBetweenSpawns = 60;
     float timeSinceLastSpawn = Mathf.Infinity;
 
     private void Start()
@@ -35,6 +35,14 @@ public class RoomEnemySpawner : MonoBehaviour
     {
         timeSinceLastSpawn = Mathf.Infinity;
         SpawnRoomOfEnemies();
+    }
+
+    public void Despawn()
+    {
+        foreach (EnemySpawnerCB enemy in enemys)
+        {
+            enemy.DespawnEnemies();
+        }
     }
 
 }

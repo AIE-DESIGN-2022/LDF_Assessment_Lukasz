@@ -10,16 +10,21 @@ public class PlayerSwitchInteraction : MonoBehaviour
     bool ActiveRaytracing = false;
     [SerializeField] KeyCode activatingKey = KeyCode.F;
     string openMsg;
+    bool hasDisplayedMsg = false;
 
 
     private void Start()
     {
-        openMsg = "Press " + activatingKey + " to open.";
+        openMsg = "Press " + activatingKey + " to open";
     }
 
     private void Update()
     {
         if (ActiveRaytracing) DoRaytracing();
+        else if (hasDisplayedMsg)
+        {
+            hasDisplayedMsg = false;
+        }
     }
 
     public void ActivePlayerRaytracing(bool Tracing)
@@ -34,6 +39,8 @@ public class PlayerSwitchInteraction : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, 5f) && hit.collider.GetComponentInParent<Switch>())
         {
+            DisplayMsg();
+            
             Switch theSwitch = hit.collider.GetComponentInParent<Switch>();
 
             if (Input.GetKeyDown(activatingKey))
@@ -41,12 +48,17 @@ public class PlayerSwitchInteraction : MonoBehaviour
                 theSwitch.SwitchPressed();
             }
         }
-        else
-        {
-
-        }
     }
 
 
+    public void DisplayMsg()
+    {
+        if (hasDisplayedMsg) return;
+        hasDisplayedMsg = true;
+        DisplayMessageEvent displayMessage = Events.DisplayMessageEvent;
+        displayMessage.Message = openMsg;
+        displayMessage.DelayBeforeDisplay = 0.0f;
+        EventManager.Broadcast(displayMessage);
+    }
 
 }

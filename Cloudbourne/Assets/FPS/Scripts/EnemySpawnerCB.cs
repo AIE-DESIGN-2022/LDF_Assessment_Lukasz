@@ -53,4 +53,14 @@ public class EnemySpawnerCB : MonoBehaviour
         }
     }
 
+    public void DespawnEnemies()
+    {
+        if (!haveSpawned) return;
+        haveSpawned = false;
+        foreach (GameObject enemy in spawnedEnemies.ToArray())
+        {
+            Destroy(enemy);
+        }
+    }
+
 }

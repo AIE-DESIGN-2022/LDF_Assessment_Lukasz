@@ -26,6 +26,7 @@ namespace Unity.FPS.Gameplay
         public float timeToStayOpen = 2.0f;
         Switch[] switches;
         Elevator elevator;
+        int enemyOccupied = 0;
 
         private void Start()
         {
@@ -44,6 +45,11 @@ namespace Unity.FPS.Gameplay
                 CloseDoorIfUnoccupied();
             }
             if (autoOpen && doorOccupied)
+            {
+                OpenDoors();
+            }
+
+            if (enemyOccupied > 0)
             {
                 OpenDoors();
             }
@@ -66,7 +72,7 @@ namespace Unity.FPS.Gameplay
         {
             if (isOpen && !isMoving)
             {
-                if (doorOccupied)
+                if (doorOccupied || enemyOccupied > 0)
                 {
                     timeSinceDoorOccupied = 0;
                 }
@@ -233,10 +239,20 @@ namespace Unity.FPS.Gameplay
 
         private void OnTriggerEnter(Collider other)
         {
+            if (other.name != "Pickup_Health" && other.name != "Player") print("Entered trigger: " + other.name);
+
             if (other.transform == GameObject.FindGameObjectWithTag("Player").transform)
             {
                 doorOccupied = true;
             }
+
+            if (other.transform.GetComponent<EnemyDoorInteraction>() != null)
+            {
+                print("Enemy opening door");
+                enemyOccupied++;
+
+            }
+
         }
 
         private void OnTriggerExit(Collider other)
@@ -244,6 +260,12 @@ namespace Unity.FPS.Gameplay
             if (other.transform == GameObject.FindGameObjectWithTag("Player").transform)
             {
                 doorOccupied = false;
+            }
+
+            if (other.transform.GetComponent<EnemyDoorInteraction>() != null)
+            {
+                enemyOccupied--;
+
             }
         }
     }

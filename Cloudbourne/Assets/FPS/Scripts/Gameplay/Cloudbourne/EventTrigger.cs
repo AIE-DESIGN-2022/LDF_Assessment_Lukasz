@@ -8,6 +8,7 @@ public class EventTrigger : MonoBehaviour
 {
     [SerializeField] UnityEvent Tiggers;
     [SerializeField] Objective[] objectivesToActivate;
+    [SerializeField] bool destroyOnTrigger = false;
 
     bool hasTriggered = false;
 
@@ -29,7 +30,7 @@ public class EventTrigger : MonoBehaviour
         hasTriggered = true;
         Tiggers?.Invoke();
         ActivateObjectives();
-        //DestroyTrigger();
+        if (destroyOnTrigger) DestroyTrigger();
     }
 
     private void ActivateObjectives()

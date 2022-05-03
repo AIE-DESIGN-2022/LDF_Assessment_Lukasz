@@ -35,7 +35,6 @@ namespace Unity.FPS.UI
                 {
                     RegistrationLogic();
                     objectiveRegistered = true;
-                    print("Adding Compass Element: " + gameObject.name);
                 }
             }
 

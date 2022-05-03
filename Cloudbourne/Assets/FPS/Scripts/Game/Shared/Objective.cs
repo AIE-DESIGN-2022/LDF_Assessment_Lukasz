@@ -102,6 +102,7 @@ namespace Unity.FPS.Game
         {
             isActivated = true;
             CompleteObjective(string.Empty, string.Empty, "Objective complete : " + Title);
+            Destroy(gameObject);
         }
     }
 }
