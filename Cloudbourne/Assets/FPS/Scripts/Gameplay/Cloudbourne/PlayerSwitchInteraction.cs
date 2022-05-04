@@ -11,11 +11,12 @@ public class PlayerSwitchInteraction : MonoBehaviour
     [SerializeField] KeyCode activatingKey = KeyCode.F;
     string openMsg;
     bool hasDisplayedMsg = false;
+    float displayTimer = Mathf.Infinity;
 
 
     private void Start()
     {
-        openMsg = "Press " + activatingKey + " to open";
+        UpdateDisplayMsg("");
     }
 
     private void Update()
@@ -25,6 +26,8 @@ public class PlayerSwitchInteraction : MonoBehaviour
         {
             hasDisplayedMsg = false;
         }
+
+        displayTimer += Time.deltaTime;
     }
 
     public void ActivePlayerRaytracing(bool Tracing)
@@ -53,12 +56,18 @@ public class PlayerSwitchInteraction : MonoBehaviour
 
     public void DisplayMsg()
     {
-        if (hasDisplayedMsg) return;
+        if (hasDisplayedMsg || displayTimer < 5.0f) return;
         hasDisplayedMsg = true;
+        displayTimer = 0;
         DisplayMessageEvent displayMessage = Events.DisplayMessageEvent;
         displayMessage.Message = openMsg;
         displayMessage.DelayBeforeDisplay = 0.0f;
         EventManager.Broadcast(displayMessage);
+    }
+
+    public void UpdateDisplayMsg(string openType)
+    {
+        openMsg = "Press " + activatingKey + " " + openType;
     }
 
 }

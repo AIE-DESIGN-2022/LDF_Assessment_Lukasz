@@ -27,9 +27,12 @@ namespace Unity.FPS.Gameplay
         Switch[] switches;
         Elevator elevator;
         int enemyOccupied = 0;
+        AudioSource audioSource;
 
         private void Start()
         {
+            audioSource = GetComponent<AudioSource>();
+
             switches = GetComponentsInChildren<Switch>();
             elevator = GetComponentInParent<Elevator>();
 
@@ -117,6 +120,7 @@ namespace Unity.FPS.Gameplay
                         isOpen = true;
                         if (elevator == null) SetSwitchesToActivated();
                     }
+                    if (audioSource != null) audioSource.Stop();
                 }
             }
         }
@@ -140,6 +144,8 @@ namespace Unity.FPS.Gameplay
             }
 
             if (elevator == null) SetSwitchesToActivating();
+
+            if (audioSource != null) audioSource.Play();
         }
 
         public bool IsActive()

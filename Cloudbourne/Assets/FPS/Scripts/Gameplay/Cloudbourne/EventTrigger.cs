@@ -26,7 +26,7 @@ public class EventTrigger : MonoBehaviour
     public void TriggerEvent()
     {
         if (hasTriggered) return;
-        print("Triggering " + gameObject.name);
+        //print("Triggering " + gameObject.name);
         hasTriggered = true;
         Tiggers?.Invoke();
         ActivateObjectives();

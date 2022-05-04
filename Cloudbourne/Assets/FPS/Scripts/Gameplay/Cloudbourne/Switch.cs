@@ -12,7 +12,7 @@ namespace Unity.FPS.Gameplay
     {
         [SerializeField] UnityEvent OnSwitchPressed;
         [SerializeField] bool isActive = false;
-        public string hoverMessage;
+        public string hoverMessage = "to Open";
         [SerializeField] Light lt;
         [SerializeField] Color inactiveColor = Color.red;
         [SerializeField] Color standbyColor = Color.blue;
@@ -87,6 +87,7 @@ namespace Unity.FPS.Gameplay
             if (player == null) return;
 
             player.ActivePlayerRaytracing(true);
+            player.UpdateDisplayMsg(hoverMessage);
         }
 
         private void OnTriggerExit(Collider other)

@@ -25,9 +25,11 @@ namespace Unity.FPS.Gameplay
         Door topDoor;
         Switch bottomSwitch;
         Switch topSwitch;
+        AudioSource audioSource;
 
         private void Awake()
         {
+            audioSource = GetComponent<AudioSource>();
             isAtBottom = startsAtBottom;
             door = GetComponentInChildren<Door>();
             sw = GetComponentInChildren<Switch>();
@@ -80,6 +82,7 @@ namespace Unity.FPS.Gameplay
             SetElevatorTarget();
             CloseDoors();
             SetSwitchesStateActivating();
+            if (audioSource != null) audioSource.Play();
         }
 
         private void SetElevatorTarget()
@@ -146,6 +149,8 @@ namespace Unity.FPS.Gameplay
                     isAtBottom = true;
                     OnArrivalBottom();
                 }
+
+                if (audioSource != null) audioSource.Stop();
             }
 
         }

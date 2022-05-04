@@ -738,6 +738,7 @@ GameObject:
   - component: {fileID: 6929254001441420014}
   - component: {fileID: 6929254001441420015}
   - component: {fileID: 30333931728103790}
+  - component: {fileID: 9167146579777948260}
   m_Layer: 0
   m_Name: ElevatorFreight
   m_TagString: Untagged
@@ -1103,53 +1104,109 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9af0005330e8c594fb38157c7484e2b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isActive: 0
   targetHeight: 0
+  linearInterpMovement: 0
   elevatorSpeed: 0
-  OnMoveStart:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1696302531587099119}
-        m_TargetAssemblyTypeName: Switch, Assembly-CSharp
-        m_MethodName: SetStateActivating
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  OnReachTop:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1696302531587099119}
-        m_TargetAssemblyTypeName: Switch, Assembly-CSharp
-        m_MethodName: SetStateStandby
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  OnReachBottom:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1696302531587099119}
-        m_TargetAssemblyTypeName: Switch, Assembly-CSharp
-        m_MethodName: SetStateStandby
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+  startsAtBottom: 1
+  bottomElevatorObject: {fileID: 0}
+  topElevatorObject: {fileID: 0}
+--- !u!82 &9167146579777948260
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6929254001441420013}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 4afd8d21954983040a394b5dacac3353, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1001 &2163788112098121641
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1239,6 +1296,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 688254664827346502, guid: 4499f4036f4bfcf49979b565a1545100,
         type: 3}
+      propertyPath: hoverMessage
+      value: to activate
+      objectReference: {fileID: 0}
+    - target: {fileID: 688254664827346502, guid: 4499f4036f4bfcf49979b565a1545100,
+        type: 3}
       propertyPath: OnSwitchPressed.m_PersistentCalls.m_Calls.Array.size
       value: 0
       objectReference: {fileID: 0}
@@ -1295,15 +1357,3 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2163788112098121641}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1696302531587099119 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 688254664827346502, guid: 4499f4036f4bfcf49979b565a1545100,
-    type: 3}
-  m_PrefabInstance: {fileID: 2163788112098121641}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27588c05c5ce21d43a6172c249af8b0d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
