@@ -325,7 +325,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c22777d6e868e4f2fb421913386b154e, type: 2}
+  - {fileID: 2100000, guid: 996b347e95a6c814b8b0c7c5bcff39f1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -398,11 +398,13 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   isActive: 0
+  hoverMessage: to Open
   lt: {fileID: 7966189475718149931}
   inactiveColor: {r: 1, g: 0, b: 0, a: 1}
   standbyColor: {r: 0, g: 0, b: 1, a: 1}
   activatedColor: {r: 0, g: 1, b: 0, a: 1}
   activatingColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  objective: {fileID: 0}
   blinkWhenActivating: 0
   blinkSpeed: 0.05
 --- !u!1 &3135892883269281024

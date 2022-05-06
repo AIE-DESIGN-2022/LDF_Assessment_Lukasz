@@ -1602,7 +1602,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c22777d6e868e4f2fb421913386b154e, type: 2}
+  - {fileID: 2100000, guid: 605eed09696c4be429d14884f5510a9e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2056,11 +2056,13 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   isActive: 0
+  hoverMessage: to Open
   lt: {fileID: 2789005520076124732}
   inactiveColor: {r: 1, g: 0, b: 0, a: 1}
   standbyColor: {r: 0, g: 0, b: 1, a: 1}
   activatedColor: {r: 0, g: 1, b: 0, a: 1}
   activatingColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  objective: {fileID: 0}
   blinkWhenActivating: 1
   blinkSpeed: 0.1
 --- !u!1 &7058215632796131632
@@ -2384,7 +2386,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c22777d6e868e4f2fb421913386b154e, type: 2}
+  - {fileID: 2100000, guid: 605eed09696c4be429d14884f5510a9e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3154,7 +3156,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isActive: 0
+  autoOpen: 0
   autoClose: 1
+  linearInterpMovement: 0
   leftDoor: {fileID: 7058215632796131632}
   rightDoor: {fileID: 485070354056279250}
   doorMoveDistance: 1.15
